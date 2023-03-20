@@ -404,10 +404,12 @@ class Dalai {
       console.log({ code });
     }
     /*
+    /*
     if (!success) {
       throw new Error("cannot execute python3 or python")
       return
     }
+    */
     */
 
     // 3.4. Python libraries

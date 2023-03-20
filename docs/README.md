@@ -3,6 +3,7 @@
 Run LLaMA and Alpaca on your computer.
 
 <a href="https://github.com/cocktailpeanut/dalai" class='inverse btn'><i class="fa-brands fa-github"></i> GitHub</a>
+<a href="https://github.com/cocktailpeanut/dalai" class='inverse btn'><i class="fa-brands fa-github"></i> GitHub</a>
 <a href="https://twitter.com/cocktailpeanut" class='inverse btn'><i class="fa-brands fa-twitter"></i> Twitter</a>
 <a href="https://discord.gg/XahBUrbVwz" class='inverse btn'><i class="fa-brands fa-discord"></i> Discord</a>
 
@@ -66,6 +67,8 @@ Dalai runs on all of the following operating systems:
 
 ## 2. Memory Requirements
 
+## 2. Memory Requirements
+
 Runs on most modern computers. Unless your computer is very very old, it should work.
 
 Here are the RAM requirements:
@@ -79,6 +82,7 @@ Here are the RAM requirements:
 
 ### Alpaca
 
+Currently 7B and 13B models are available via [alpaca.cpp](https://github.com/antimatter15/alpaca.cpp)
 Currently 7B and 13B models are available via [alpaca.cpp](https://github.com/antimatter15/alpaca.cpp)
 
 #### 7B
@@ -95,6 +99,7 @@ Alpaca comes fully quantized (compressed), and the only space you need for the 1
 
 ### LLaMA
 
+You need a lot of space for storing the models. **The model name must be one of: 7B, 13B, 30B, and 65B.**
 You need a lot of space for storing the models. **The model name must be one of: 7B, 13B, 30B, and 65B.**
 
 You do NOT have to install all models, you can install one by one. Let's take a look at how much space each model takes up:
@@ -143,6 +148,10 @@ You do NOT have to install all models, you can install one by one. Let's take a 
 
 If your mac doesn't have node.js installed yet, make sure to install node.js >= 10
 
+### Step 1. Install node.js >= 18
+
+If your mac doesn't have node.js installed yet, make sure to install node.js >= 10
+
 <a href="https://nodejs.org/en/download/" class='btn'>Install Node.js</a>
 
 ### Step 2.1. Install models
@@ -151,9 +160,13 @@ Currently supported engines are `llama` and `alpaca`.
 
 #### Add alpaca models
 
+#### Add alpaca models
+
+Currently alpaca only has the 7B model:
 Currently alpaca only has the 7B model:
 
 ```
+npx dalai alpaca install 7B
 npx dalai alpaca install 7B
 ```
 
@@ -162,6 +175,7 @@ npx dalai alpaca install 7B
 To download llama models, you can run:
 
 ```
+npx dalai llama install 7B
 npx dalai llama install 7B
 ```
 
@@ -196,16 +210,49 @@ Once homebrew is installed, install these dependencies:
 ```
 brew install cmake
 brew install pkg-config
+npx dalai llama install 7B 13B
+```
+
+Now go to step 3.
+
+### Step 2.2. Troubleshoot
+
+Normally you don't need this step, but if running the commands above don't do anything and immediately end, it means something went wrong because some of the required modules are not installed on your system.
+
+In that case, try the following steps:
+
+#### 1. Install homebrew
+
+In case homebrew is not installed on your computer, install it by running:
+
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+> Or you can find the same instruction on the homebrew hompage: https://brew.sh/
+
+#### 2. Install dependencies
+
+Once homebrew is installed, install these dependencies:
+
+```
+brew install cmake
+brew install pkg-config
 ```
 
 #### 3. Update NPM
 
+#### 3. Update NPM
+
+Just to make sure we cover every vector, let's update NPM as well:
 Just to make sure we cover every vector, let's update NPM as well:
 
 ```
 npm install -g npm@latest
+npm install -g npm@latest
 ```
 
+Now go back to step 2.1 and try running the `npx dalai` commands again.
 Now go back to step 2.1 and try running the `npx dalai` commands again.
 
 ### Step 3. Run Web UI
@@ -213,6 +260,7 @@ Now go back to step 2.1 and try running the `npx dalai` commands again.
 After everything has been installed, run the following command to launch the web UI server:
 
 ```
+npx dalai serve
 npx dalai serve
 ```
 
@@ -263,6 +311,7 @@ npx dalai alpaca install 7B
 #### Add llama models
 
 To download llama models. Open your `cmd` application and enter:
+To download llama models. Open your `cmd` application and enter:
 
 ```
 npx dalai llama install 7B
@@ -274,10 +323,15 @@ or to download multiple models:
 npx dalai llama install 7B 13B
 ```
 
+```
+npx dalai llama install 7B 13B
+```
+
 ---
 
 ### Step 2.2. Troubleshoot (optional)
 
+In case above steps fail, try installing Node.js and Python separately.
 In case above steps fail, try installing Node.js and Python separately.
 
 Install Python:
@@ -285,11 +339,13 @@ Install Python:
 <a href="https://www.python.org/ftp/python/3.10.10/python-3.10.10-embed-amd64.zip" class='btn'>Download Python</a>
 
 Install Node.js >= 18:
+Install Node.js >= 18:
 
 <a href="https://nodejs.org/en/download/" class='btn'>Download Node.js</a>
 
 After both have been installed, open powershell and type `python` to see if the application exists. And also type `node` to see if the application exists as well.
 
+Once you've checked that they both exist, try again.
 Once you've checked that they both exist, try again.
 
 ### Step 3. Run Web UI
@@ -297,6 +353,7 @@ Once you've checked that they both exist, try again.
 After everything has been installed, run the following command to launch the web UI server (Make sure to run in `cmd` and not powershell!):
 
 ```
+npx dalai serve
 npx dalai serve
 ```
 
@@ -312,6 +369,7 @@ You need to make sure you have the correct version of Python and Node.js install
 
 #### Step 1.1. Python <= 3.10
 
+<a href="https://pimylifeup.com/installing-python-on-linux/" class='btn'>Download Python</a>
 <a href="https://pimylifeup.com/installing-python-on-linux/" class='btn'>Download Python</a>
 
 > Make sure the version is 3.10 or lower (not 3.11)
@@ -331,9 +389,13 @@ Currently supported engines are `llama` and `alpaca`.
 
 #### Add alpaca models
 
+#### Add alpaca models
+
+Currently alpaca only has the 7B model:
 Currently alpaca only has the 7B model:
 
 ```
+npx dalai alpaca install 7B
 npx dalai alpaca install 7B
 ```
 
@@ -343,11 +405,13 @@ To download llama models, you can run:
 
 ```
 npx dalai llama install 7B
+npx dalai llama install 7B
 ```
 
 or to download multiple models:
 
 ```
+npx dalai llama install 7B 13B
 npx dalai llama install 7B 13B
 ```
 
@@ -372,6 +436,7 @@ dnf install make automake gcc gcc-c++ kernel-devel python3-virtualenv -y
 After everything has been installed, run the following command to launch the web UI server:
 
 ```
+npx dalai serve
 npx dalai serve
 ```
 
