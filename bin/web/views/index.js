@@ -246,6 +246,7 @@ socket.on("result", async ({ request, response, isRunning }) => {
 
         responses[id] = responses[id].replaceAll("┬ú", "$"); //dollar sign
         responses[id] = responses[id].replaceAll("Æs", "'s"); //apostrophe s
+        responses[id] = responses[id].replaceAll("IÆll", "I'll"); //I will
 
         responses[id] = responses[id].replaceAll("&quot;", '"'); //quote
 
