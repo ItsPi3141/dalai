@@ -123,6 +123,10 @@ form.addEventListener("submit", (e) => {
     isRunningModel = true;
     form.setAttribute("class", isRunningModel ? "running-model" : "");
     gen++;
+    setTimeout(() => {
+      input.style.height = "auto";
+      input.style.height = input.scrollHeight + "px";
+    });
   }
 });
 input.addEventListener("keydown", (e) => {
@@ -257,6 +261,7 @@ socket.on("result", async ({ request, response, isRunning }) => {
         responses[id] = responses[id].replaceAll("&quot;", '"'); //quote
 
         responses[id] = responses[id].replaceAll("\\t", "  "); //tab chracters
+        responses[id] = responses[id].replaceAll("\\r", "\n"); //sometimes /r is used in codeblocks
 
         responses[id] = responses[id].replaceAll("\\n", "\n"); //convert line breaks back
         responses[id] = responses[id].replaceAll('\\"', '"'); //convert quotes back
