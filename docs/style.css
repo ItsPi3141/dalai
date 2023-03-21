@@ -262,3 +262,6 @@ section.cover.show {
 .sidebar-toggle {
   background: #8882;
 }
+strong {
+  color: revert !important;
+}
