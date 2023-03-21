@@ -10,7 +10,7 @@ class Alpaca {
   constructor(root) {
     this.root = root;
     this.home = path.resolve(this.root.home, "alpaca");
-    this.url = "https://github.com/candywrap/alpaca.cpp.git";
+    this.url = "https://github.com/ItsPi3141/alpaca.cpp.git";
     // this.url = "https://github.com/candywrap/alpaca.cpp.git";
     // this.url = "https://github.com/matbee-eth/alpaca.cpp";
   }
