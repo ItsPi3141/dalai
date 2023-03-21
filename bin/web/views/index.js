@@ -25,6 +25,12 @@ input.addEventListener("keydown", () => {
     input.style.height = input.scrollHeight + "px";
   });
 });
+input.addEventListener("keyup", () => {
+  setTimeout(() => {
+    input.style.height = "auto";
+    input.style.height = input.scrollHeight + "px";
+  });
+});
 
 const renderHeader = (config) => {
   const fields = [
@@ -140,7 +146,7 @@ stopButton.addEventListener("click", (e) => {
     isRunningModel = false;
     form.setAttribute("class", isRunningModel ? "running-model" : "");
     input.style.height = "34px";
-  }, 200);
+  }, 500);
 });
 
 const sha256 = async (input) => {
@@ -328,3 +334,7 @@ setInterval(async () => {
   cpuBar.style.transform = `scaleX(${cpuPercent / 100})`;
   ramBar.style.transform = `scaleX(${(totalmem - freemem) / totalmem})`;
 }, 1500);
+
+document.getElementById("clear").addEventListener("click", () => {
+  input.value = "";
+});
