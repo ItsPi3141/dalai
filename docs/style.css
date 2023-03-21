@@ -259,3 +259,6 @@ section.cover.show {
     margin: 0;
   }
 }
+.sidebar-toggle {
+  background: #8882;
+}
