@@ -224,7 +224,7 @@ socket.on("result", async ({ request, response, isRunning }) => {
         response = response.replaceAll(/</g, "&lt;");
         response = response.replaceAll(/>/g, "&gt;");
         console.log(response);
-        if (response.includes("[end of text]")) {
+        if (response.includes("\n\n<end>")) {
           setTimeout(() => {
             isRunningModel = false;
             form.setAttribute("class", isRunningModel ? "running-model" : "");
