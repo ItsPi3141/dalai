@@ -103,7 +103,13 @@ const loading = (on) => {
 };
 document.querySelector(".form-header").addEventListener("input", (e) => {
   if (e.target.tagName === "SELECT") {
+    if (config[e.target.name] != config.models[e.target.selectedIndex]) {
+      socket.emit("request", {
+        method: "stop",
+      });
+    }
     config[e.target.name] = config.models[e.target.selectedIndex];
+
     console.log(config.models[e.target.selectedIndex]);
   } else if (e.target.type === "checkbox") {
     config[e.target.name] = e.target.checked;
@@ -210,6 +216,10 @@ socket.on("result", async ({ request, response, isRunning }) => {
     }
   } else {
     if (response == "\n\n<end>") {
+      setTimeout(() => {
+        isRunningModel = false;
+        form.setAttribute("class", isRunningModel ? "running-model" : "");
+      }, 200);
     } else {
       document.body.classList.remove("llama");
       document.body.classList.remove("alpaca");
@@ -224,12 +234,7 @@ socket.on("result", async ({ request, response, isRunning }) => {
         response = response.replaceAll(/</g, "&lt;");
         response = response.replaceAll(/>/g, "&gt;");
         console.log(response);
-        if (response.includes("\n\n<end>")) {
-          setTimeout(() => {
-            isRunningModel = false;
-            form.setAttribute("class", isRunningModel ? "running-model" : "");
-          }, 200);
-        }
+
         responses[id] = responses[id] + response;
 
         if (responses[id].startsWith("<br>")) {
