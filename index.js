@@ -30,6 +30,16 @@ const escapeDoubleQuotes = (platform, arg) =>
   platform === "win32"
     ? arg.replaceAll(/"/g, '`"')
     : arg.replaceAll(/"/g, '\\"');
+const stripAnsi = (str) => {
+  const pattern = [
+    "[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)",
+    "(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))",
+  ].join("|");
+
+  const regex = new RegExp(pattern, "g");
+  return str.replace(regex, "");
+};
+
 class Dalai {
   constructor(home) {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,13 +69,60 @@ class Dalai {
     this.torrent = new TorrentDownloader();
     this.config = {
       name: "xterm-color",
-      cols: 200,
+      cols: 1000,
       rows: 30,
     };
     this.cores = {
       llama: new L(this),
       alpaca: new A(this),
     };
+  }
+  htmlencode(str) {
+    let encodedStr = "";
+    for (let i = 0; i < str.length; i++) {
+      let charCode = str.charCodeAt(i);
+      if (charCode < 128) {
+        // ASCII characters
+        switch (str[i]) {
+          case "<":
+            encodedStr += "&lt;";
+            break;
+          case ">":
+            encodedStr += "&gt;";
+            break;
+          case "&":
+            encodedStr += "&amp;";
+            break;
+          case '"':
+            encodedStr += "&quot;";
+            break;
+          case "'":
+            encodedStr += "&#39;";
+            break;
+          case "\n":
+            encodedStr += "<br>";
+            break;
+          case "\r":
+            break; // ignore
+          case "\t":
+            encodedStr += "&nbsp;&nbsp;&nbsp;&nbsp;";
+            break;
+          case "\b":
+            encodedStr += "&nbsp;";
+            break;
+          case "\f":
+            encodedStr += "&nbsp;";
+            break;
+          default:
+            encodedStr += String.fromCharCode(charCode);
+            break;
+        }
+      } else {
+        // Non-ASCII characters
+        encodedStr += "&#" + charCode + ";";
+      }
+    }
+    return encodedStr;
   }
   down(url, dest, headers) {
     return new Promise((resolve, reject) => {
@@ -236,7 +293,11 @@ class Dalai {
         (proc, msg) => {
           if (endpattern.test(msg)) ended = true;
           if (started && !ended) {
-            cb(msg);
+            if (req.html) {
+              cb(this.htmlencode(msg));
+            } else {
+              cb(msg);
+            }
           } else if (ended && writeEnd) {
             cb("\n\n<end>");
             writeEnd = false;
@@ -502,7 +563,7 @@ class Dalai {
         this._runningShell = ptyProcess;
         ptyProcess.onData((data) => {
           if (cb) {
-            cb(ptyProcess, data);
+            cb(ptyProcess, stripAnsi(data));
           } else {
             process.stdout.write(data);
           }
@@ -516,7 +577,13 @@ class Dalai {
             resolve(false);
           }
         });
-        ptyProcess.write(`${cmd}\r`);
+        if (platform === "win32") {
+          ptyProcess.write(
+            `[System.Console]::OutputEncoding=[System.Console]::InputEncoding=[System.Text.Encoding]::UTF8; ${cmd}\r`
+          );
+        } else {
+          ptyProcess.write(`${cmd}\r`);
+        }
         ptyProcess.write("exit\r");
       } catch (e) {
         console.log("caught error", e);
