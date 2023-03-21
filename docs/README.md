@@ -6,6 +6,11 @@ Run LLaMA and Alpaca on your computer.
 <a href="https://twitter.com/cocktailpeanut" class='inverse btn'><i class="fa-brands fa-twitter"></i> Twitter</a>
 <a href="https://discord.gg/XahBUrbVwz" class='inverse btn'><i class="fa-brands fa-discord"></i> Discord</a>
 
+## Info
+This is a fork of Dalai to add a ChatGPT-style UI to it.  
+
+Please consider giving this project a star if you like it. It would motivate me to work on the fork and improve it further. 
+
 ---
 
 ## Requirements
