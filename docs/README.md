@@ -1,4 +1,4 @@
-# Dalai
+# Dalai Pi
 
 Run LLaMA and Alpaca on your computer.
 
