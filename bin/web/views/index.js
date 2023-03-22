@@ -235,7 +235,7 @@ socket.on("result", async ({ request, response, isRunning }) => {
             );
             const initialPrompt = defaultPrompt || prompts[0];
             promptSelect.value = initialPrompt.value;
-            input.textContent = initialPrompt.value;
+            input.value = initialPrompt.value;
             setTimeout(() => {
               input.style.height = "auto";
               input.style.height = input.scrollHeight + "px";
@@ -243,25 +243,20 @@ socket.on("result", async ({ request, response, isRunning }) => {
             // Update the input text with the selected prompt value
             const handlePromptChange = () => {
               const selectedPromptValue = promptSelect.value;
-              const currentInputValue = input.textContent;
-              input.textContent = selectedPromptValue;
+              const currentInputValue = input.value;
+              input.value = selectedPromptValue;
               // Move the cursor to the first instance of ">PROMPT" and select only the word ">PROMPT"
-              const promptIndex = input.textContent.indexOf(">PROMPT");
-              if (promptIndex >= 0) {
-                const range = document.createRange();
-                const selection = window.getSelection();
-                const promptEndIndex = promptIndex + ">PROMPT".length;
-                range.setStart(input.childNodes[0], promptIndex);
-                range.setEnd(input.childNodes[0], promptEndIndex);
-                selection.removeAllRanges();
-                selection.addRange(range);
-              }
+              const promptIndex = input.value.indexOf(">PROMPT");
               // Focus the input
               input.focus();
+              input.setSelectionRange(
+                promptIndex,
+                promptIndex + ">PROMPT".length
+              );
               setTimeout(() => {
                 input.style.height = "auto";
                 input.style.height = input.scrollHeight + "px";
-              });
+              }, 50);
             };
             promptSelect.addEventListener("change", handlePromptChange);
             // Create a Reset button
