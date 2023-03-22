@@ -28,8 +28,10 @@ const escapeNewLine = (platform, arg) =>
     : arg;
 const escapeDoubleQuotes = (platform, arg) =>
   platform === "win32"
-    ? arg.replaceAll(/"/g, '`"')
-    : arg.replaceAll(/"/g, '\\"');
+    ? // ? arg.replaceAll(/"/g, '\\\\\\""')
+      // : arg.replaceAll(/"/g, '\\"');
+      arg.replaceAll(/"/g, '"')
+    : arg.replaceAll(/"/g, '"');
 const stripAnsi = (str) => {
   const pattern = [
     "[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)",
