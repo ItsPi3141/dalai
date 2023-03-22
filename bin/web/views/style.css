@@ -125,6 +125,7 @@ button {
   border-radius: 5px;
   outline: none;
   box-sizing: border-box;
+  background: #0005;
 }
 button#stop,
 button#autocomplete,
