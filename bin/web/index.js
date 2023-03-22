@@ -1,10 +1,12 @@
 const express = require("express");
 const http = require("http");
 const path = require("path");
+const fs = require("fs");
 const Dalai = require("../../index");
 const app = express();
 const httpServer = http.Server(app);
-var os = require("os-utils");
+const os = require("os");
+const osUtil = require("os-utils");
 const start = (port, home) => {
   const dalai = new Dalai(home);
   dalai.http(httpServer);
@@ -26,14 +28,14 @@ const start = (port, home) => {
 
   // CPU
   app.get("/sys/cpuUsage", (req, res) => {
-    os.cpuUsage(function (v) {
+    osUtil.cpuUsage(function (v) {
       res.send({
         data: v,
       });
     });
   });
   app.get("/sys/cpuFree", (req, res) => {
-    os.cpuFree(function (v) {
+    osUtil.cpuFree(function (v) {
       res.send({
         data: v,
       });
@@ -43,17 +45,60 @@ const start = (port, home) => {
   // OTHER STATS
   app.get("/sys/cpuCount", (req, res) => {
     res.send({
-      data: os.cpuCount(),
+      data: osUtil.cpuCount(),
     });
   });
   app.get("/sys/freemem", (req, res) => {
     res.send({
-      data: Math.round(os.freemem() / 102.4) / 10,
+      data: Math.round(osUtil.freemem() / 102.4) / 10,
     });
   });
   app.get("/sys/totalmem", (req, res) => {
     res.send({
-      data: os.totalmem(),
+      data: osUtil.totalmem(),
+    });
+  });
+
+  const defaultDir = path.join(__dirname, "prompts");
+  const customDir = path.join(os.homedir(), "dalai", "config", "prompts");
+  if (!fs.existsSync(customDir)) {
+    fs.mkdirSync(customDir, { recursive: true });
+    console.log(`Created custom directory: ${customDir}`);
+  }
+  app.get("/prompts", (req, res) => {
+    let prompts = [];
+
+    const filesToPrompts = (files, directory, editable) =>
+      files.flatMap((file) => {
+        const filePath = path.join(directory, file);
+        const stats = fs.statSync(filePath, "utf8");
+
+        // Filter out directories and non .txt files
+        if (!stats.isFile() || !file.endsWith(".txt")) {
+          return [];
+        }
+        const promptName = path.basename(file, ".txt");
+        const promptValue = fs.readFileSync(filePath, "utf8");
+        return { name: promptName, value: promptValue, editable };
+      });
+
+    // Read default prompts
+    fs.readdir(defaultDir, (err, files) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Internal server error" });
+      }
+      prompts = filesToPrompts(files, defaultDir, false);
+
+      // Read custom prompts
+      fs.readdir(customDir, (err, files) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ error: "Internal server error" });
+        }
+        prompts = prompts.concat(filesToPrompts(files, customDir, true));
+        res.json(prompts);
+      });
     });
   });
 

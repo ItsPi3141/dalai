@@ -91,6 +91,12 @@ const renderHeader = (config) => {
       <select id="model" name="model">${models}</select>
     </label>
   </div>
+  <div class="kv">
+    <label for="prompt-select">prompt</label>
+    <label class="dropdown-arrow">
+      <select id="prompt-select" name="prompt-select"></select>
+    </label>
+  </div>
 </div>`;
 };
 let isRunningModel = false;
@@ -103,14 +109,16 @@ const loading = (on) => {
 };
 document.querySelector(".form-header").addEventListener("input", (e) => {
   if (e.target.tagName === "SELECT") {
-    if (config[e.target.name] != config.models[e.target.selectedIndex]) {
-      socket.emit("request", {
-        method: "stop",
-      });
+    if (e.target.id == "model") {
+      console.log(e.target.id);
+      if (config[e.target.name] != config.models[e.target.selectedIndex]) {
+        socket.emit("request", {
+          method: "stop",
+        });
+      }
+      config[e.target.name] = config.models[e.target.selectedIndex];
+      console.log(config.models[e.target.selectedIndex]);
     }
-    config[e.target.name] = config.models[e.target.selectedIndex];
-
-    console.log(config.models[e.target.selectedIndex]);
   } else if (e.target.type === "checkbox") {
     config[e.target.name] = e.target.checked;
   } else {
@@ -203,6 +211,73 @@ socket.on("result", async ({ request, response, isRunning }) => {
         var header = document.createElement("div");
         document.querySelector(".form-header").prepend(header);
         header.outerHTML = renderHeader(config);
+
+        // Load prompts from files
+        const promptSelect = document.getElementById("prompt-select");
+        fetch("./prompts")
+          .then((response) => response.json())
+          .then((prompts) => {
+            console.log(prompts);
+            if (prompts.length === 0) {
+              promptSelect.disabled = true;
+              return;
+            }
+            // Populate prompt options
+            prompts.forEach((prompt) => {
+              const option = document.createElement("option");
+              option.value = prompt.value;
+              option.textContent = prompt.name;
+              promptSelect.appendChild(option);
+            });
+            // Select the "default" prompt if it exists, otherwise select the first prompt
+            const defaultPrompt = prompts.find(
+              (prompt) => prompt.name.toLowerCase() === "default"
+            );
+            const initialPrompt = defaultPrompt || prompts[0];
+            promptSelect.value = initialPrompt.value;
+            input.textContent = initialPrompt.value;
+            setTimeout(() => {
+              input.style.height = "auto";
+              input.style.height = input.scrollHeight + "px";
+            });
+            // Update the input text with the selected prompt value
+            const handlePromptChange = () => {
+              const selectedPromptValue = promptSelect.value;
+              const currentInputValue = input.textContent;
+              input.textContent = selectedPromptValue;
+              // Move the cursor to the first instance of ">PROMPT" and select only the word ">PROMPT"
+              const promptIndex = input.textContent.indexOf(">PROMPT");
+              if (promptIndex >= 0) {
+                const range = document.createRange();
+                const selection = window.getSelection();
+                const promptEndIndex = promptIndex + ">PROMPT".length;
+                range.setStart(input.childNodes[0], promptIndex);
+                range.setEnd(input.childNodes[0], promptEndIndex);
+                selection.removeAllRanges();
+                selection.addRange(range);
+              }
+              // Focus the input
+              input.focus();
+              setTimeout(() => {
+                input.style.height = "auto";
+                input.style.height = input.scrollHeight + "px";
+              });
+            };
+            promptSelect.addEventListener("change", handlePromptChange);
+            // Create a Reset button
+            const resetButton = document.createElement("button");
+            resetButton.textContent = "Reset";
+            // Append the Reset button to the same container as the dropdown
+            promptSelect.parentNode.appendChild(resetButton);
+            resetButton.addEventListener("click", (e) => {
+              e.preventDefault(); // Prevent form from submitting
+              handlePromptChange();
+            });
+          })
+          .catch((error) => {
+            console.error("Error loading prompts:", error);
+          });
+
         // document.querySelector(".form-header").innerHTML = renderHeader(config);
         setHomepage();
         document.getElementById("model").addEventListener("change", () => {
