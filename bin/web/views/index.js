@@ -52,7 +52,7 @@ const renderHeader = (config) => {
 <label>${key}</label>
 <input 
   name="${key}" 
-  type='text' 
+  type='number' 
   placeholder="${key}" 
   value="${config[key] || ""}"
 >
