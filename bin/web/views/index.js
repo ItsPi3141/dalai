@@ -341,13 +341,13 @@ socket.on("result", async ({ request, response, isRunning }) => {
 
         // responses[id] = responses[id].replaceAll("&quot;", '"'); //quote
 
-        // responses[id] = responses[id].replaceAll(
-        //   "\\t",
-        //   "&nbsp;&nbsp;&nbsp;&nbsp;"
-        // ); //tab chracters
-        // responses[id] = responses[id].replaceAll("\\b", "&nbsp;"); //no break space
-        // responses[id] = responses[id].replaceAll("\\f", "&nbsp;"); //no break space
-        // responses[id] = responses[id].replaceAll("\\r", "\n"); //sometimes /r is used in codeblocks
+        responses[id] = responses[id].replaceAll(
+          "\\t",
+          "&nbsp;&nbsp;&nbsp;&nbsp;"
+        ); //tab chracters
+        responses[id] = responses[id].replaceAll("\\b", "&nbsp;"); //no break space
+        responses[id] = responses[id].replaceAll("\\f", "&nbsp;"); //no break space
+        responses[id] = responses[id].replaceAll("\\r", "\n"); //sometimes /r is used in codeblocks
 
         responses[id] = responses[id].replaceAll("\\n", "\n"); //convert line breaks back
         responses[id] = responses[id].replaceAll('\\"', '"'); //convert quotes back
