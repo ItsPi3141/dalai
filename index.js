@@ -126,6 +126,53 @@ class Dalai {
     }
     return encodedStr;
   }
+  htmlencode(str) {
+    let encodedStr = "";
+    for (let i = 0; i < str.length; i++) {
+      let charCode = str.charCodeAt(i);
+      if (charCode < 128) {
+        // ASCII characters
+        switch (str[i]) {
+          case "<":
+            encodedStr += "&lt;";
+            break;
+          case ">":
+            encodedStr += "&gt;";
+            break;
+          case "&":
+            encodedStr += "&amp;";
+            break;
+          case '"':
+            encodedStr += "&quot;";
+            break;
+          case "'":
+            encodedStr += "&#39;";
+            break;
+          case "\n":
+            encodedStr += "<br>";
+            break;
+          case "\r":
+            break; // ignore
+          case "\t":
+            encodedStr += "&nbsp;&nbsp;&nbsp;&nbsp;";
+            break;
+          case "\b":
+            encodedStr += "&nbsp;";
+            break;
+          case "\f":
+            encodedStr += "&nbsp;";
+            break;
+          default:
+            encodedStr += String.fromCharCode(charCode);
+            break;
+        }
+      } else {
+        // Non-ASCII characters
+        encodedStr += "&#" + charCode + ";";
+      }
+    }
+    return encodedStr;
+  }
   down(url, dest, headers) {
     return new Promise((resolve, reject) => {
       const task = path.basename(dest);
