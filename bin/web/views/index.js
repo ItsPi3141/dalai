@@ -256,7 +256,7 @@ socket.on("result", async ({ request, response, isRunning }) => {
               setTimeout(() => {
                 input.style.height = "auto";
                 input.style.height = input.scrollHeight + "px";
-              }, 50);
+              });
             };
             promptSelect.addEventListener("change", handlePromptChange);
             // Create a Reset button
@@ -423,4 +423,8 @@ setInterval(async () => {
 
 document.getElementById("clear").addEventListener("click", () => {
   input.value = "";
+  setTimeout(() => {
+    input.style.height = "auto";
+    input.style.height = input.scrollHeight + "px";
+  });
 });
