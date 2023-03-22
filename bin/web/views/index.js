@@ -231,7 +231,7 @@ socket.on("result", async ({ request, response, isRunning }) => {
             });
             // Select the "default" prompt if it exists, otherwise select the first prompt
             const defaultPrompt = prompts.find(
-              (prompt) => prompt.name.toLowerCase() === "default"
+              (prompt) => prompt.name.toLowerCase() === "instruction-alpaca"
             );
             const initialPrompt = defaultPrompt || prompts[0];
             promptSelect.value = initialPrompt.value;

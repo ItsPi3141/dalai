@@ -334,6 +334,8 @@ select {
   appearance: none;
   cursor: pointer;
   width: 160px;
+  padding-right: 40px;
+  text-overflow: ellipsis;
 }
 label.dropdown-arrow {
   position: relative;
