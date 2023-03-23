@@ -15,6 +15,12 @@ Please consider giving this project a star if you like it. It would motivate me 
 
 ---
 
+## Screenshots
+![](https://raw.githubusercontent.com/ItsPi3141/dalai/main/docs/dalai.gif)
+![](https://raw.githubusercontent.com/ItsPi3141/dalai/main/docs/alpaca.gif)
+
+---
+
 ## Requirements
 
 ### RAM requirements
