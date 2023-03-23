@@ -236,6 +236,13 @@ socket.on("result", async ({ request, response, isRunning }) => {
             const initialPrompt = defaultPrompt || prompts[0];
             promptSelect.value = initialPrompt.value;
             input.value = initialPrompt.value;
+            const promptIndex = input.value.indexOf(">PROMPT");
+            // Focus the input
+            input.focus();
+            input.setSelectionRange(
+              promptIndex,
+              promptIndex + ">PROMPT".length
+            );
             setTimeout(() => {
               input.style.height = "auto";
               input.style.height = input.scrollHeight + "px";
