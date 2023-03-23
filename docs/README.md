@@ -107,7 +107,7 @@ npx dalai llama install 7B
 npx dalai serve
 ```
 
-After the web UI has opened, go to http://localhost:3000 and enjoy!
+After the web UI has opened, go to http://localhost:42069 and enjoy!
 
 ---
 
@@ -216,7 +216,7 @@ npx dalai llama install 7B
 npx dalai serve
 ```
 
-After the web UI has opened, go to http://localhost:3000 and enjoy!
+After the web UI has opened, go to http://localhost:42069 and enjoy!
 
 ---
 
