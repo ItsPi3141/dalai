@@ -25,10 +25,10 @@ Please consider giving this project a star if you like it. It would motivate me 
 
 ### RAM requirements
 
-- 7B: ~5.6 GB
+- 7B: ~5 GB
 - 13B: ~9 GB
-- 30B: ~20 GB
-- 65B: ~40 GB
+- 30B: ~21 GB
+- 65B: ~42 GB
 
 ### Disk Space Requirements
 
