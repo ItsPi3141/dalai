@@ -1,14 +1,14 @@
 var gen = 0;
 const config = {
   seed: -1,
-  threads: 16,
-  n_predict: 6942069,
+  threads: 4,
+  n_predict: 200,
   model: "7B",
-  top_k: 420,
-  top_p: 0.9,
-  temp: 0.9,
+  top_k: 40,
+  top_p: 0.95,
+  temp: 0.1,
   repeat_last_n: 64,
-  repeat_penalty: 1.3,
+  repeat_penalty: 1,
   debug: false,
   // html: true,
   models: [],
@@ -35,8 +35,8 @@ input.addEventListener("keyup", () => {
 
 const renderHeader = (config) => {
   const fields = [
-    { key: "debug", type: "checkbox" },
-    "threads",
+    //{ key: "debug", type: "checkbox" },
+    //"threads",
     "n_predict",
     "repeat_last_n",
     "repeat_penalty",
@@ -231,7 +231,7 @@ socket.on("result", async ({ request, response, isRunning }) => {
             });
             // Select the "default" prompt if it exists, otherwise select the first prompt
             const defaultPrompt = prompts.find(
-              (prompt) => prompt.name.toLowerCase() === "instruction-alpaca"
+              (prompt) => prompt.name.toLowerCase() === "none"
             );
             const initialPrompt = defaultPrompt || prompts[0];
             promptSelect.value = initialPrompt.value;
@@ -397,6 +397,7 @@ document
     });
   });
 
+/*
 const cpuText = document.querySelector("#cpu .text");
 const ramText = document.querySelector("#ram .text");
 const cpuBar = document.querySelector("#cpu .bar-inner");
@@ -427,6 +428,7 @@ setInterval(async () => {
   cpuBar.style.transform = `scaleX(${cpuPercent / 100})`;
   ramBar.style.transform = `scaleX(${(totalmem - freemem) / totalmem})`;
 }, 1500);
+*/
 
 document.getElementById("clear").addEventListener("click", () => {
   input.value = "";

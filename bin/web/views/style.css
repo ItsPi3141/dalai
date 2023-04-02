@@ -369,7 +369,7 @@ option {
   flex-wrap: wrap;
   width: 160px;
   padding: 10px 20px;
-  padding-bottom: 200px;
+  padding-bottom: 10px;
 }
 .kv {
   display: block;
