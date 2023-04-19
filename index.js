@@ -322,7 +322,7 @@ class Dalai {
 
     const main_bin_path =
       platform === "win32"
-        ? path.resolve(this.home, Core, "build", "Release", "main")
+        ? path.resolve(this.home, Core, "build", "bin", "Release", Core)
         : path.resolve(this.home, Core, "main");
     if (req.full) {
       await this.exec(

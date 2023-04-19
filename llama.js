@@ -117,7 +117,7 @@ npx dalai install 7B 13B
         console.log(`Skip quantization, files already exists: ${outputFile1} and ${outputFile2}}`)
         continue
       }
-      const bin_path = platform === "win32" ? path.resolve(this.home, "build", "Release") : this.home
+      const bin_path = platform === "win32" ? path.resolve(this.home, "build", "bin", "Release") : this.home
       await this.root.exec(`./quantize ${outputFile1} ${outputFile2} 2`, bin_path)
     }
   }
