@@ -4,7 +4,7 @@ Run LLaMA and Alpaca on your computer.
 
 <a href="https://github.com/cocktailpeanut/dalai" class='inverse btn'><i class="fa-brands fa-github"></i> GitHub</a>
 <a href="https://twitter.com/cocktailpeanut" class='inverse btn'><i class="fa-brands fa-twitter"></i> Twitter</a>
-<a href="https://discord.gg/XahBUrbVwz" class='inverse btn'><i class="fa-brands fa-discord"></i> Discord</a>
+<a href="https://discord.gg/bkA7QWdKxB" class='inverse btn'><i class="fa-brands fa-discord"></i> Discord</a>
 
 ## Info
 
@@ -226,6 +226,6 @@ Have questions or feedback? Follow the project through the following outlets:
 
 <a href="https://github.com/cocktailpeanut/dalai" class='inverse btn'><i class="fa-brands fa-github"></i> GitHub</a>
 <a href="https://twitter.com/cocktailpeanut" class='inverse btn'><i class="fa-brands fa-twitter"></i> Twitter</a>
-<a href="https://discord.gg/XahBUrbVwz" class='inverse btn'><i class="fa-brands fa-discord"></i> Discord</a>
+<a href="https://discord.gg/bkA7QWdKxB" class='inverse btn'><i class="fa-brands fa-discord"></i> Discord</a>
 
 ---
